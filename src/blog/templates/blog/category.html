@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+{% extends "blog/base.html" %}
+
+{% block title_block %}
+CATEGORY
+{% endblock %}
+
+{% block bread %}
+<ol class="breadcrumb">
+    <li>
+        <a href="{% url 'blog:index' %}">
+            <i class="fas fa-home mr-1"></i>
+            HOME
+        </a>
+    </li>
+    <li>{{ category }}</li>
+</ol>
+{% endblock %}
+
+{% block contents_block %}
+<section class="search-title">
+    <span>― CATEGORY ―</span>
+    <h3>{{ category }}</h3>
+</section>
+{% for post in posts %}
+<div class="row pt-md-4">
+    <div class="col-md-12">
+        <div class="blog-entry d-md-flex">
+            <img src="{{ post.image.picture.url }}" alt="{{ post.image.picture.url }}" class='img'>
+            <div class="text pl-md-4">
+                <h3 class="mb-2"><a href="{% url 'blog:article' post.id %}">{{ post.title }}</a>
+                </h3>
+                <div class="meta-wrap">
+                    <p class="meta">
+                        <span>
+                            <i class="far fa-calendar-alt mr-2"></i>
+                            {{ post.published_date|date:"d F Y" }}
+                        </span>
+                        <span>
+                            <i class="fas fa-folder mr-2"></i>
+                            <a href="{% url 'blog:category' post.category %}">
+                                {{ post.category }}
+                            </a>
+                        </span>
+                    </p>
+                </div>
+                <p class="mb-4">
+                    {{ post.sub_title }}
+                </p>
+                <p>
+                    <a href="{% url 'blog:article' post.id %}" class="btn-custom">
+                        Read More
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% include 'blog/pagination.html' %}
+{% endblock %}
+
+</html>

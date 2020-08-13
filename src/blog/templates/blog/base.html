@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+{% load static %}
+{% load sass_tags %}
+{% load widget_tweaks %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{% static 'blog/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+    <link rel="stylesheet" href="{% sass_src 'blog/css/style.scss' %}">
+    {% block extra_css %}{% endblock %}
+    <title>
+        {% block title_block %}{% endblock %}
+    </title>
+</head>
+
+<body>
+    <header class="site-header sticky-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <nav class="navbar navbar-expand-md navbar-light">
+                        <div class="navbar-brand">Mittsu System</div>
+                        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#bs-navi"
+                            aria-controls="bs-navi" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse justify-content-end" id="bs-navi">
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'blog:index' %}">
+                                        <i class="fas fa-home mr-1"></i>
+                                        HOME
+                                    </a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+                                        <i class="fas fa-folder mr-1"></i>
+                                        CATEGORY
+                                    </a>
+                                    <div class="dropdown-menu">
+                                        {% for category in categories %}
+                                        <a class="dropdown-item" href="{% url 'blog:category' category.name %}">
+                                            {{ category.name }}
+                                        </a>
+                                        {% endfor %}
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+    {% block header_block %}{% endblock %}
+    <div class="bread-container">
+        <div class="container">
+            {% block bread %}{% endblock %}
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-8 col-md-8 py-4 px-md-5">
+                {% block contents_block %}{% endblock %}
+            </div>
+            <div class="col-xl-4 col-md-4 sidebar bg-light pt-5">
+                <div class="sidebar-box pt-md-4">
+                    <form action="{% url 'blog:index' %}" method="GET" class="search-form">
+                        <div class="form-group">
+                            {% render_field search_form.title class="form-control" placeholder="Type a keyword and hit enter" %}
+                            {{ search_form.title.errors }}
+                        </div>
+                    </form>
+                </div>
+                <div class="sidebar-box pt-md-4">
+                    <h3 class="sidebar-heading">Profile</h3>
+                    <img class="profile-icon" src="{% static 'blog/img/people.jpg' %}">
+                    <span>
+                        I mainly write technical articles.
+                    </span>
+                    <a href="https://twitter.com/mitsuma_n" target=”_blank”>
+                        <img class="snsbutton" src="{% static 'blog/img/Twitter_Social_Icon_Circle_Color.png' %}">
+                    </a>
+                </div>
+                <div class="sidebar-box">
+                    <h3 class="sidebar-heading">Category</h3>
+                    <ul class="categories">
+                        {% for category in categories %}
+                        <li>
+                            <a href="{% url 'blog:category' category.name %}">
+                                <i class="fas fa-caret-right mr-2 icon"></i>
+                                {{ category.name }}
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="sidebar-box">
+                    <h3 class="sidebar-heading">Latest Article</h3>
+                    {% for latest in latests %}
+                    <div class="new-article mb-4 d-flex">
+                        <img src="{{ latest.image.picture.url }}" alt="{{ latest.image.picture.url }}"
+                            class='blog-img mr-4'>
+                        <div class="text">
+                            <h3 class="heading"><a href="{% url 'blog:article' latest.id %}">{{ latest.title }}</a></h3>
+                            <h6>
+                                <i class="far fa-calendar-alt mr-2"></i>
+                                {{ latest.published_date|date:"d F Y" }}
+                            </h6>
+                            <h6>
+                                <i class="fas fa-user mr-2"></i>
+                                {{ latest.author }}
+                            </h6>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <p class="page-top"><a href="#"></a></p>
+    <footer>
+        <section class="copyright">
+            <div class="container">
+                <div class="row">
+                    <p>Copyright © 2019 Nobuaki Mitsuma</p>
+                </div>
+            </div>
+        </section>
+    </footer>
+
+    <script src="{% static 'blog/js/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'blog/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'blog/js/common.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>

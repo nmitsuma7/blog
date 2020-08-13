@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+{% extends "blog/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title_block %}
+{{ post.title }}
+{% endblock %}
+
+{% block bread %}
+<ol class="breadcrumb">
+    <li>
+        <a href="{% url 'blog:index' %}">
+            <i class="fas fa-home mr-1"></i>
+            HOME
+        </a>
+    </li>
+    <li><a href="{% url 'blog:category' post.category %}">{{ post.category }}</a></li>
+    <li>{{ post.title }}</li>
+</ol>
+{% endblock %}
+
+{% block contents_block %}
+<div class="row detail">
+    <div class="col-md-12">
+        <h1>{{ post.title }}</h1>
+        <div class="sub-title">
+            <span class="mr-3">
+                <i class="far fa-calendar-alt mr-2"></i>
+                {{ post.published_date|date:"d F Y" }}
+            </span>
+            <span>
+                <i class="fas fa-folder mr-2"></i>
+                <a href="{% url 'blog:category' post.category %}">
+                    {{ post.category }}
+                </a>
+            </span>
+        </div>
+        <img src="{{ post.image.picture.url }}" alt="{{ post.image.picture.url }}" class='img'>
+        <div class="text">
+            <p>{{ post.text|linebreaksbr }}</p>
+        </div>
+        <div class="pt-5 mt-5">
+            {% if comments %}
+            <h3 class="mb-5 font-weight-bold"><i class="far fa-comment-alt mr-3"></i>LEAVE COMMENTS</h3>
+            {% for comment in comments %}
+            <ul class="comment-list">
+                <li class="comment">
+                    <div class="vcard bio">
+                        <img class="account mr-4" src="{% static 'blog/img/no_account.jpg' %}">
+                    </div>
+                    <div class="comment-body">
+                        <h3>{{ comment.name }}</h3>
+                        <div class="meta">
+                            <i class="far fa-calendar-alt mr-2"></i>
+                            {{ comment.created_date|date:"d F Y" }}
+                        </div>
+                        <p>{{ comment.comment }}</p>
+                    </div>
+                </li>
+            </ul>
+            {% endfor %}
+            {% endif %}
+            <div class="comment-form-wrap pt-5">
+                <h3 class="mb-3"><i class="far fa-comment-alt mr-3"></i>COMMENT</h3>
+                <form action="" method="POST" class="p-3 p-md-5 bg-light">
+                    {% csrf_token %}
+                    {{ form.non_field_errors }}
+                    <div class="form-group">
+                        <label for="{{ form.name.id_for_label }}">Name</label>
+                        {% render_field form.name class="form-control" %}
+                        {{ form.name.errors }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.comment.id_for_label }}">Comment</label>
+                        {% render_field form.comment class="form-control" rows="5" %}
+                        {{ form.comment.errors }}
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm">
+                            <button type="submit" class="btn btn-info btn-block">SEND</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+</html>

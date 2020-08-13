@@ -1,0 +1,33 @@
+# Distribution / packaging
+.Python
+build/
+dist/
+lib/
+staticfiles
+
+# Django stuff:
+*.log
+*.pot
+*.pyc
+*.swp
+__pycache__/
+secret_settings.py
+db.sqlite3
+media
+mysql/*
+.DS_Store
+
+# pyenv
+.python-version
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# editor
+.vscode

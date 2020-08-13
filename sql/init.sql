@@ -1,0 +1,4 @@
+GRANT ALL PRIVILEGES ON blog.* TO 'user'@'%';
+GRANT ALL PRIVILEGES ON blog_test.* TO 'user'@'%';
+
+FLUSH PRIVILEGES;
