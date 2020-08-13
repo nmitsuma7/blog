@@ -7,8 +7,8 @@
 - MySQL database support with PyMySQL.
 - Images save on [cloudinary](https://cloudinary.com/)
 - Application is running on heroku.
-- Use scss to write style.
-- Use whitenoise to manage static files.
+- Uses scss to write style.
+- Uses whitenoise to manage static files.
 
 
 ## Deployment
